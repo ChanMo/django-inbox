@@ -1,0 +1,20 @@
+{% extends "console.html" %}
+{% block header_right %}
+  <a href="/console/inbox/send/record/" class="button is-small">发送记录</a>  
+{% endblock %}
+{% block inner %}
+  <form method="post" style="max-width:400px;">
+    {% csrf_token %}
+    {% include "form_snippet.html" %}
+    <div class="field mt-6" >
+      <button class="button is-fullwidth is-primary" type="submit">发送</button>
+    </div>
+  </form>
+{% endblock %}
+{% block extra_js %}
+  <script>
+   document.querySelector("form").addEventListener("submit", event => {
+     event.submitter.classList.add("is-loading")
+   })
+  </script>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}消息通知{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="container">
+      <div class="level mb-6">
+	<div class="level-left">
+          <div class="level-item">
+            <h3 class="title">消息通知</h3>
+          </div>
+	</div>
+	<div class="level-right">
+          <div class="level-item">
+            {% if user.total_msg %}
+              <a class="button is-warning" href="/inbox/read_all/">全部标记为已读</a>
+            {% endif %}
+          </div>
+	</div>
+      </div>
+
+      {% if object_list %}
+	{% for row in object_list %}
+	  <article class="message {% if not row.is_read %}is-info{% endif %} mb-2">
+	    <div class="message-body">
+              <div class="media is-align-items-center">
+		<div class="media-body is-flex-grow-1">
+		  <div class="content">
+                    <p class="mb-1"><strong>{{row.created}}</strong></p>
+		    <p>[{{row.title}}] {{row.body|default:""}}</p>
+		    {% if row.link %}
+		      <p><a href="{{row.link}}">链接</a></p>
+		    {% endif %}
+		  </div>
+		</div>
+		{% if not row.is_read %}
+		  <div class="media-right">
+		    <a href="/inbox/{{row.pk}}/read/" class="button is-small">标记为已读</a>
+		  </div>
+		{% endif %}
+              </div>
+	    </div>
+	  </article>
+	{% endfor %}
+	<div class="mt-5">
+	  {% include "pagination.html" %}
+	</div>
+      {% else %}
+	{% include "empty.html" %}
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}
